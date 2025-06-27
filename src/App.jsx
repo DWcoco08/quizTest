@@ -1,9 +1,13 @@
 import "./App.scss";
+import React from "react";
+import NavBar_Header from "./components/Header/Header";
 
 const App = () => {
   return (
     <>
-      <p>Hello World</p>
+      <div className="container">
+        <NavBar_Header />
+      </div>
     </>
   );
 };
