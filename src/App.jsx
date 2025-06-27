@@ -1,13 +1,12 @@
 import "./App.scss";
 import React from "react";
-import NavBar_Header from "./components/Header/Header";
+import NavBar_Header from "./components/Header/NavBar_Header";
 
 const App = () => {
   return (
     <>
-      <div className="container">
-        <NavBar_Header />
-      </div>
+      <NavBar_Header />
+      <div>test</div>
     </>
   );
 };
