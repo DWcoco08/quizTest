@@ -27,13 +27,16 @@ const NavBar_Header = () => {
             </NavLink>
           </Nav>
           <nav>
-            <NavDropdown title="Settings" id="basic-nav-dropdown">
+            <button className="btn-login">Log in</button>
+            <button className="btn-signup">Sign up</button>
+
+            {/* <NavDropdown title="Settings" id="basic-nav-dropdown">
               <NavDropdown.Item>Login</NavDropdown.Item>
               <NavDropdown.Item>User Info</NavDropdown.Item>
               <NavDropdown.Item>About</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item>Log out</NavDropdown.Item>
-            </NavDropdown>
+            </NavDropdown> */}
           </nav>
         </Navbar.Collapse>
       </Container>
