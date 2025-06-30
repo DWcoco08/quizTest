@@ -50,8 +50,15 @@ const SideBar = (props) => {
               whiteSpace: "nowrap",
             }}
           >
-            <GiAxolotl size={"3em"} color={"#FF69B4"} />
-            <span style={{ padding: "10px", fontSize: "20px" }}>QuizTest</span>
+            <GiAxolotl size={"2.5em"} color={"#FF69B4"} />
+            <span
+              style={{
+                padding: "10px",
+                fontSize: "20px",
+              }}
+            >
+              QuizTest
+            </span>
           </div>
         </SidebarHeader>
 
@@ -92,7 +99,7 @@ const SideBar = (props) => {
                   overflow: "hidden",
                 }}
               >
-                &#169; Hỏi Dân IT Udemy
+                &#169; DWuyClone
               </span>
             </a>
           </div>
