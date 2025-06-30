@@ -18,10 +18,10 @@ const NavBar_Header = () => {
             <NavLink to="/" className="nav-link">
               Home
             </NavLink>
-            <NavLink to="/Users" className="nav-link">
+            <NavLink to="/users" className="nav-link">
               Users
             </NavLink>
-            <NavLink to="/Admin" className="nav-link">
+            <NavLink to="/admins" className="nav-link">
               Admin
             </NavLink>
           </Nav>

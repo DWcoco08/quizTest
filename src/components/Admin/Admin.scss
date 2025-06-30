@@ -8,5 +8,15 @@
 
   .admin-content {
     padding: 10px;
+    width: 100%;
+
+    .admin-header {
+      height: 40px;
+      border: 1px solid green;
+    }
+
+    .admin-main {
+      border: 1px solid red;
+    }
   }
 }
