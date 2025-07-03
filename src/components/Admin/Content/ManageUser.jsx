@@ -6,6 +6,7 @@ import TableUser from "./TableUser";
 import ModalCreateUser from "./ModalCreateUser";
 import ModalViewUser from "./ModalViewUser";
 import ModalUpdateUser from "./ModalUpdateUser";
+import ModalDeleteUser from "./ModalDeleteUser";
 
 const ManageUser = () => {
   const [showModalCreateUser, setShowModalCreateUser] = useState(false);
@@ -15,6 +16,9 @@ const ManageUser = () => {
 
   const [showModalUpdateUser, setShowModalUpdateUser] = useState(false);
   const [dataUpdate, setDataUpdate] = useState({});
+
+  const [showModalDeleteUser, setShowModalDeleteUser] = useState(false);
+  const [dataDelete, setDataDelete] = useState({});
 
   const [listUser, setListUser] = useState([]);
   // componentDidMount
@@ -47,6 +51,11 @@ const ManageUser = () => {
     setDataUpdate({});
   };
 
+  const handleClickDeleteUser = (user) => {
+    setShowModalDeleteUser(true);
+    setDataDelete(user);
+  };
+
   return (
     <div className="manage-user-container">
       <div className="manage-user-title"> Manage User </div>
@@ -64,6 +73,7 @@ const ManageUser = () => {
             listUser={listUser}
             handleClickUpdateUser={handleClickUpdateUser}
             handleClickViewUser={handleClickViewUser}
+            handleClickDeleteUser={handleClickDeleteUser}
           />
         </div>
         <ModalCreateUser
@@ -83,6 +93,12 @@ const ManageUser = () => {
           fetchAllUser={fetchAllUser}
           dataUpdate={dataUpdate}
           resetUpdateDate={resetUpdateDate}
+        />
+        <ModalDeleteUser
+          show={showModalDeleteUser}
+          setShow={setShowModalDeleteUser}
+          dataDelete={dataDelete}
+          fetchAllUser={fetchAllUser}
         />
       </div>
     </div>
