@@ -1,13 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { FcPlus } from "react-icons/fc";
-import { toast } from "react-toastify";
-import { putUpdateUser } from "../../../services/apiService";
 import _ from "lodash";
 
-const ModalUpdateUser = (props) => {
-  const { show, setShow, dataUpdate } = props;
+const ModalViewUser = (props) => {
+  const { show, setShow, dataView } = props;
 
   const handleClose = () => {
     setShow(false);
@@ -17,7 +15,7 @@ const ModalUpdateUser = (props) => {
     setRole("User");
     setImage("");
     setPreviewImage("");
-    props.resetUpdateDate(); // reset data update
+    props.resetDataView(); // reset data view
   };
 
   const [email, setEmail] = useState("");
@@ -28,34 +26,21 @@ const ModalUpdateUser = (props) => {
   const [previewImage, setPreviewImage] = useState("");
 
   useEffect(() => {
-    if (show && !_.isEmpty(dataUpdate)) {
-      setEmail(dataUpdate.email);
-      setUsername(dataUpdate.username);
-      setRole(dataUpdate.role);
+    if (show && !_.isEmpty(dataView)) {
+      setEmail(dataView.email);
+      setUsername(dataView.username);
+      setRole(dataView.role);
       setImage("");
-      if (dataUpdate.image) {
-        setPreviewImage(`data:image/jpeg;base64, ${dataUpdate.image}`);
+      if (dataView.image) {
+        setPreviewImage(`data:image/jpeg;base64, ${dataView.image}`);
       }
     }
-  }, [props.dataUpdate]);
+  }, [props.dataView]);
 
   const handleImageChange = (event) => {
     if (event.target && event.target.files && event.target.files[0]) {
       setPreviewImage(URL.createObjectURL(event.target.files[0]));
       setImage(event.target.files[0]);
-    }
-  };
-
-  const handleSubmitUpdateUser = async () => {
-    let data = await putUpdateUser(dataUpdate.id, username, role, image);
-    // check res
-    if (data && data.EC === 0) {
-      toast.success(data.EM);
-      handleClose();
-      await props.fetchAllUser(); // fetch all user again
-    }
-    if (data && data.EC !== 0) {
-      toast.error(data.EM);
     }
   };
 
@@ -69,7 +54,7 @@ const ModalUpdateUser = (props) => {
         className="modal-add-user"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Update User</Modal.Title>
+          <Modal.Title>View User</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form className="row g-3">
@@ -99,18 +84,14 @@ const ModalUpdateUser = (props) => {
               <input
                 type="text"
                 className="form-control"
+                disabled
                 value={username}
-                onChange={(event) => setUsername(event.target.value)}
               />
             </div>
 
             <div className="col-md-4">
               <label className="form-label">Role</label>
-              <select
-                className="form-select"
-                value={role}
-                onChange={(event) => setRole(event.target.value)}
-              >
+              <select className="form-select" disabled value={role}>
                 <option value="User">User</option>
                 <option value="Admin">Admin</option>
               </select>
@@ -120,12 +101,7 @@ const ModalUpdateUser = (props) => {
               <label className="form-label label-upload" htmlFor="labelUpload">
                 <FcPlus /> Upload file Image
               </label>
-              <input
-                type="file"
-                id="labelUpload"
-                onChange={(event) => handleImageChange(event)}
-                hidden
-              />
+              <input type="file" id="labelUpload" disabled hidden />
             </div>
 
             <div className="col-md-12 img-preview">
@@ -142,13 +118,10 @@ const ModalUpdateUser = (props) => {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={() => handleSubmitUpdateUser()}>
-            Save
-          </Button>
         </Modal.Footer>
       </Modal>
     </>
   );
 };
 
-export default ModalUpdateUser;
+export default ModalViewUser;
