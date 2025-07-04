@@ -37,13 +37,6 @@ const ModalViewUser = (props) => {
     }
   }, [props.dataView]);
 
-  const handleImageChange = (event) => {
-    if (event.target && event.target.files && event.target.files[0]) {
-      setPreviewImage(URL.createObjectURL(event.target.files[0]));
-      setImage(event.target.files[0]);
-    }
-  };
-
   return (
     <>
       <Modal
