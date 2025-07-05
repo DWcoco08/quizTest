@@ -9,8 +9,26 @@ const Login = (props) => {
   const [password, setPassword] = useState();
   const navigate = useNavigate();
 
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
+
   const handleLogin = async () => {
     // validate
+    const isValidEmail = validateEmail(email);
+    if (!isValidEmail) {
+      toast.error("Invalid email!");
+      return;
+    }
+
+    if (!password) {
+      toast.error("Password is required!");
+      return;
+    }
 
     // submit APIS
     let data = await postLogin(email, password);
@@ -27,10 +45,16 @@ const Login = (props) => {
     <div className="login-container">
       <div className="login-header">
         <span>Don't have an account yet?</span>
-        <button>Sign up</button>
+        <button
+          onClick={() => {
+            navigate("/register");
+          }}
+        >
+          Sign up
+        </button>
       </div>
       <div className="login-title col-4 mx-auto">IT-QuizTest</div>
-      <div className="login-welcome col-4 mx-auto">Hello, Wanna Join Us?</div>
+      <div className="login-welcome col-4 mx-auto">Hello, Wanna join Us?</div>
       <div className="login-form col-4 mx-auto">
         <div className="form-group">
           <label>Email</label>
@@ -64,7 +88,7 @@ const Login = (props) => {
             }}
           >
             {" "}
-            &#60;&#60; Go to HomePage
+            &#60;&#60; Go to Homepage
           </button>
         </div>
       </div>
