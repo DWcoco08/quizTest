@@ -7,8 +7,8 @@ import { useDispatch } from "react-redux";
 import { doLogin } from "../../redux/action/userAction";
 
 const Login = (props) => {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
