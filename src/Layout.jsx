@@ -8,8 +8,18 @@ import DashBoard from "./components/Admin/Content/Dashboard.jsx";
 import Login from "./components/Auth/Login.jsx";
 import Register from "./components/Auth/Register.jsx";
 import ListQuiz from "./components/User/ListQuiz.jsx";
+import DetailQuiz from "./components/User/DetailQuiz.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+const NotFound = () => {
+  return (
+    <div className="container mt-3 alert alert-danger">
+      <h1>404 - Not Found</h1>
+      <p>The page you are looking for does not exist.</p>
+    </div>
+  );
+};
 
 const Layout = () => {
   return (
@@ -19,6 +29,7 @@ const Layout = () => {
           <Route index element={<HomePage />} />
           <Route path="users" element={<ListQuiz />} />
         </Route>
+        <Route path="/quiz/:id" element={<DetailQuiz />} />
 
         <Route path="/admins" element={<Admin />}>
           <Route index element={<DashBoard />} />
@@ -27,7 +38,9 @@ const Layout = () => {
 
         <Route path="/login" element={<Login />} />
         <Route path="/Register" element={<Register />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
+
       <ToastContainer
         position="top-right"
         autoClose={3000}
