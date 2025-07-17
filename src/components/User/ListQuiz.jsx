@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getQuizByUser } from "../../services/apiService";
 import { useNavigate } from "react-router-dom";
-import "./listQuiz.scss";
+import "./ListQuiz.scss";
 
 const ListQuiz = (props) => {
   const [quizzes, setQuizzes] = useState([]);
@@ -38,7 +38,11 @@ const ListQuiz = (props) => {
                 <p className="card-text">{quiz.description}</p>
                 <button
                   className="btn btn-primary"
-                  onClick={() => navigate(`/quiz/${quiz.id}`)}
+                  onClick={() =>
+                    navigate(`/quiz/${quiz.id}`, {
+                      state: { quizTitle: quiz.description },
+                    })
+                  }
                 >
                   Start Now
                 </button>
