@@ -1,13 +1,17 @@
 import { useParams, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getDataQuiz } from "../../services/apiService";
 import _ from "lodash";
 import "./DetailQuiz.scss";
+import Question from "./Question";
 
 const DetailQuiz = () => {
   const params = useParams();
   const location = useLocation();
   const quizId = params.id;
+
+  const [dataQuiz, setDataQuiz] = useState([]);
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
     fetchQuestions();
@@ -24,41 +28,54 @@ const DetailQuiz = () => {
           let questionDesc,
             image = null;
           value.forEach((item, index) => {
+            // console.log("Check item:", item);
             if (index === 0) {
-              questionDesc = item.questionDesc;
+              questionDesc = item.description;
               image = item.image;
             }
-            answers.push(item.answer);
+            answers.push(item.answers);
           });
           return { questionId: key, answers, questionDesc, image };
         })
         .value();
-      console.log("Processed Data:", data);
+      setDataQuiz(data);
     }
+  };
+  console.log("Check dataQuiz:", dataQuiz);
+
+  const handlePrev = () => {
+    if (index - 1 < 0) return;
+    setIndex(index - 1);
+  };
+
+  const handleNext = () => {
+    if (index + 1 >= dataQuiz.length) return;
+    setIndex(index + 1);
   };
 
   return (
     <div className="detail-quiz-container">
       <div className="left-content">
         <div className="q-title">
-          Quiz {quizId}:{location?.state?.quizTitle}
+          Quiz {quizId}: {location?.state?.quizTitle}
         </div>
         <hr />
         <div className="q-body">
           <img src="" alt="" />
         </div>
         <div className="q-content">
-          <div className="q-question">Question:</div>
-          <div className="q-answer">
-            <div className="a-child">A.</div>
-            <div className="a-child">B.</div>
-            <div className="a-child">C.</div>
-            <div className="a-child">D.</div>
-          </div>
+          <Question
+            index={index}
+            data={dataQuiz && dataQuiz.length > 0 ? dataQuiz[index] : []}
+          />
         </div>
         <div className="q-footer">
-          <button className="btn btn-secondary">Prev</button>
-          <button className="btn btn-primary">Next</button>
+          <button className="btn btn-secondary" onClick={() => handlePrev()}>
+            Prev
+          </button>
+          <button className="btn btn-primary" onClick={() => handleNext()}>
+            Next
+          </button>
         </div>
       </div>
       <div className="right-content">Count down</div>
