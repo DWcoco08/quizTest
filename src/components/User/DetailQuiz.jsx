@@ -33,6 +33,7 @@ const DetailQuiz = () => {
               questionDesc = item.description;
               image = item.image;
             }
+            item.answers.isSelected = false;
             answers.push(item.answers);
           });
           return { questionId: key, answers, questionDesc, image };
@@ -53,6 +54,30 @@ const DetailQuiz = () => {
     setIndex(index + 1);
   };
 
+  const handleFinish = () => {
+    return alert("Finish quiz");
+  };
+
+  const handleCheckBox = (answerId, questionId) => {
+    let newDataQuiz = _.cloneDeep(dataQuiz);
+    let question = newDataQuiz.find((item) => +item.questionId === +questionId);
+    if (question && question.answers) {
+      question.answers = question.answers.map((item) => {
+        if (+item.id === +answerId) {
+          item.isSelected = !item.isSelected;
+        }
+        return item;
+      });
+    }
+    let index = newDataQuiz.findIndex(
+      (item) => +item.questionId === +questionId
+    );
+    if (index > -1) {
+      newDataQuiz[index] = question;
+      setDataQuiz(newDataQuiz);
+    }
+  };
+
   return (
     <div className="detail-quiz-container">
       <div className="left-content">
@@ -66,6 +91,7 @@ const DetailQuiz = () => {
         <div className="q-content">
           <Question
             index={index}
+            handleCheckBox={handleCheckBox}
             data={dataQuiz && dataQuiz.length > 0 ? dataQuiz[index] : []}
           />
         </div>
@@ -75,6 +101,9 @@ const DetailQuiz = () => {
           </button>
           <button className="btn btn-primary" onClick={() => handleNext()}>
             Next
+          </button>
+          <button className="btn btn-warning" onClick={() => handleFinish()}>
+            Finish
           </button>
         </div>
       </div>
