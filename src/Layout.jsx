@@ -9,6 +9,7 @@ import Login from "./components/Auth/Login.jsx";
 import Register from "./components/Auth/Register.jsx";
 import ListQuiz from "./components/User/ListQuiz.jsx";
 import DetailQuiz from "./components/User/DetailQuiz.jsx";
+import ManageQuiz from "./components/Admin/Content/ManageQuiz.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -34,6 +35,7 @@ const Layout = () => {
         <Route path="/admins" element={<Admin />}>
           <Route index element={<DashBoard />} />
           <Route path="manage-users" element={<ManageUser />} />
+          <Route path="manage-quizzes" element={<ManageQuiz />} />
         </Route>
 
         <Route path="/login" element={<Login />} />

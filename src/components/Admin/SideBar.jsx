@@ -24,9 +24,10 @@ import { MdDashboard } from "react-icons/md";
 
 import "./SideBar.scss";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SideBar = (props) => {
+  const navigate = useNavigate();
   const { image, collapsed, toggled, handleToggleSidebar } = props;
   return (
     <>
@@ -56,6 +57,7 @@ const SideBar = (props) => {
                 padding: "10px",
                 fontSize: "20px",
               }}
+              onClick={() => navigate("/")}
             >
               QuizTest
             </span>
@@ -73,8 +75,11 @@ const SideBar = (props) => {
               <MenuItem>
                 Quản lý Users <Link to="/admins/manage-users" />
               </MenuItem>
-              <MenuItem> Quản lý Bài Quiz</MenuItem>
-              <MenuItem> Quản lý Câu Hỏi</MenuItem>
+              <MenuItem>
+                {" "}
+                Quản lý Bài Quiz <Link to="/admins/manage-quizzes" />
+              </MenuItem>
+              <MenuItem>Quản lý Câu Hỏi</MenuItem>
             </SubMenu>
           </Menu>
         </SidebarContent>
