@@ -1,7 +1,10 @@
 import "./ManageQuiz.scss";
 import Select from "react-select";
-import { useState } from "react";
-import { postCreateNewQuiz } from "../../../../services/apiService";
+import { useState, useEffect } from "react";
+import {
+  postCreateNewQuiz,
+  getAllQuizForAdmin,
+} from "../../../../services/apiService";
 import { toast } from "react-toastify";
 import TableQuiz from "./TableQuiz";
 import Accordion from "react-bootstrap/Accordion";
@@ -12,11 +15,23 @@ const options = [
   { value: "HARD", label: "HARD" },
 ];
 
-const ManageQuiz = (props) => {
+const ManageQuiz = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [type, setType] = useState("");
   const [image, setImage] = useState(null);
+  const [quizList, setQuizList] = useState([]);
+
+  const fetchQuiz = async () => {
+    const res = await getAllQuizForAdmin();
+    if (res && res.EC === 0) {
+      setQuizList(res.DT);
+    }
+  };
+
+  useEffect(() => {
+    fetchQuiz();
+  }, []);
 
   const handleChangeFile = (event) => {
     if (event.target && event.target.files && event.target.files[0]) {
@@ -25,7 +40,6 @@ const ManageQuiz = (props) => {
   };
 
   const handleSubmitQuiz = async () => {
-    //validate
     if (!name || !description) {
       toast.error("Name/Description is required");
       return;
@@ -36,11 +50,14 @@ const ManageQuiz = (props) => {
       toast.success(res.EM);
       setName("");
       setDescription("");
+      setType("");
       setImage(null);
+      await fetchQuiz(); // fetch lại danh sách quiz
     } else {
       toast.error(res.EM);
     }
   };
+
   return (
     <div className="quiz-container">
       <Accordion defaultActiveKey="0">
@@ -72,7 +89,7 @@ const ManageQuiz = (props) => {
                 </div>
                 <div className="my-3">
                   <Select
-                    defaultValue={type}
+                    value={type}
                     onChange={setType}
                     options={options}
                     placeholder={"Quiz type..."}
@@ -83,12 +100,12 @@ const ManageQuiz = (props) => {
                   <input
                     type="file"
                     className="form-control"
-                    onChange={(event) => handleChangeFile(event)}
+                    onChange={handleChangeFile}
                   />
                 </div>
                 <div className="mt-3">
                   <button
-                    onClick={() => handleSubmitQuiz()}
+                    onClick={handleSubmitQuiz}
                     className="btn btn-warning"
                   >
                     Save
@@ -100,7 +117,7 @@ const ManageQuiz = (props) => {
         </Accordion.Item>
       </Accordion>
       <div className="list-detail">
-        <TableQuiz />
+        <TableQuiz quizList={quizList} fetchQuiz={fetchQuiz} />
       </div>
     </div>
   );

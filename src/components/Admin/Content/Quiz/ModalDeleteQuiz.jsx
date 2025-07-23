@@ -26,7 +26,7 @@ const ModalDeleteQuiz = (props) => {
     <>
       <Modal show={show} onHide={handleClose} backdrop="static">
         <Modal.Header closeButton>
-          <Modal.Title>Confirm Delete the Quiz?</Modal.Title>
+          <Modal.Title>Confirm Delete Quiz?</Modal.Title>
         </Modal.Header>
         <Modal.Body>Are you sure to delete this quiz?</Modal.Body>
         <Modal.Footer>

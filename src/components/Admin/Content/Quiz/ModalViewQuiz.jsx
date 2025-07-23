@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { FcPlus } from "react-icons/fc";
-import { toast } from "react-toastify";
-import { putUpdateQuizForAdmin } from "../../../../services/apiService";
 import _ from "lodash";
 
-const ModalUpdateQuiz = (props) => {
-  const { show, setShow, dataUpdate, setDataUpdate } = props;
+const ModalViewQuiz = (props) => {
+  const { show, setShow, dataView } = props;
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -16,17 +14,17 @@ const ModalUpdateQuiz = (props) => {
   const [previewImage, setPreviewImage] = useState("");
 
   useEffect(() => {
-    if (!_.isEmpty(dataUpdate)) {
+    if (!_.isEmpty(dataView)) {
       //update state
-      setDescription(dataUpdate.description);
-      setName(dataUpdate.name);
-      setType(dataUpdate.difficulty);
+      setDescription(dataView.description);
+      setName(dataView.name);
+      setType(dataView.difficulty);
       setImage("");
-      if (dataUpdate.image) {
-        setPreviewImage(`data:image/jpeg;base64,${dataUpdate.image}`);
+      if (dataView.image) {
+        setPreviewImage(`data:image/jpeg;base64,${dataView.image}`);
       }
     }
-  }, [props.dataUpdate]);
+  }, [props.dataView]);
 
   const handleClose = () => {
     setShow(false);
@@ -35,45 +33,7 @@ const ModalUpdateQuiz = (props) => {
     setType("");
     setImage("");
     setPreviewImage("");
-    setDataUpdate({});
-  };
-
-  const handleUploadImage = (event) => {
-    if (event.target && event.target.files && event.target.files[0]) {
-      setPreviewImage(URL.createObjectURL(event.target.files[0]));
-      setImage(event.target.files[0]);
-    } else {
-      // setPreviewImage("");
-    }
-  };
-
-  const handSubmitUpdateQuiz = async () => {
-    if (!name) {
-      toast.error("Invalid name");
-      return;
-    }
-
-    if (!description) {
-      toast.error("Invalid description");
-      return;
-    }
-
-    let data = await putUpdateQuizForAdmin(
-      dataUpdate.id,
-      name,
-      description,
-      type,
-      image
-    );
-    if (data && data.EC === 0) {
-      toast.success(data.EM);
-      await props.fetchQuiz();
-      handleClose();
-    }
-
-    if (data && data.EC !== 0) {
-      toast.error(data.EM);
-    }
+    props.resetDataView(); // reset data view
   };
 
   return (
@@ -86,7 +46,7 @@ const ModalUpdateQuiz = (props) => {
         className="modal-add-user"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Update Quiz</Modal.Title>
+          <Modal.Title>View Quiz</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form className="row g-3">
@@ -96,7 +56,7 @@ const ModalUpdateQuiz = (props) => {
                 type="text"
                 className="form-control"
                 value={name}
-                onChange={(event) => setName(event.target.value)}
+                disabled
               />
             </div>
             <div className="col-md-6">
@@ -105,17 +65,13 @@ const ModalUpdateQuiz = (props) => {
                 type="text"
                 className="form-control"
                 value={description}
-                onChange={(event) => setDescription(event.target.value)}
+                disabled
               />
             </div>
 
             <div className="col-md-4">
               <label className="form-label">Difficulty</label>
-              <select
-                className="form-select"
-                value={type}
-                onChange={(event) => setType(event.target.value)}
-              >
+              <select className="form-select" value={type} disabled>
                 <option value="EASY">EASY</option>
                 <option value="MEDIUM">MEDIUM</option>
                 <option value="HARD">HARD</option>
@@ -126,12 +82,7 @@ const ModalUpdateQuiz = (props) => {
               <label className="form-label label-upload" htmlFor="labelUpload">
                 <FcPlus /> Upload Quiz Image
               </label>
-              <input
-                type="file"
-                id="labelUpload"
-                hidden
-                onChange={(event) => handleUploadImage(event)}
-              />
+              <input type="file" id="labelUpload" hidden disabled />
             </div>
 
             <div className="col-md-12 img-preview">
@@ -147,13 +98,10 @@ const ModalUpdateQuiz = (props) => {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={() => handSubmitUpdateQuiz()}>
-            Save
-          </Button>
         </Modal.Footer>
       </Modal>
     </>
   );
 };
 
-export default ModalUpdateQuiz;
+export default ModalViewQuiz;

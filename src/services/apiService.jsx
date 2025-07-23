@@ -85,7 +85,7 @@ const putUpdateQuizForAdmin = (id, name, description, difficulty, image) => {
 };
 
 const deleteQuizForAdmin = (id) => {
-  return axios.delete(`api/v1/quiz${id}`);
+  return axios.delete(`api/v1/quiz/${id}`);
 };
 
 export {
