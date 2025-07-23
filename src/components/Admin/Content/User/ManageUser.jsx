@@ -1,6 +1,9 @@
 import { FcPlus } from "react-icons/fc";
 import { useState, useEffect } from "react";
-import { getAllUser, getUserWithPaginate } from "../../../services/apiService";
+import {
+  getAllUser,
+  getUserWithPaginate,
+} from "../../../../services/apiService";
 import "./ManageUser.scss";
 import TableUser from "./TableUser";
 import TableUserPaginate from "./TableUserPaginate";

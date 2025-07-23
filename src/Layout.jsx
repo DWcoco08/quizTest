@@ -3,13 +3,13 @@ import App from "./App.jsx";
 import User from "./components/User/User.jsx";
 import Admin from "./components/Admin/Admin.jsx";
 import HomePage from "./components/Home/HomePage.jsx";
-import ManageUser from "./components/Admin/Content/ManageUser.jsx";
+import ManageUser from "./components/Admin/Content/User/ManageUser.jsx";
 import DashBoard from "./components/Admin/Content/Dashboard.jsx";
 import Login from "./components/Auth/Login.jsx";
 import Register from "./components/Auth/Register.jsx";
 import ListQuiz from "./components/User/ListQuiz.jsx";
 import DetailQuiz from "./components/User/DetailQuiz.jsx";
-import ManageQuiz from "./components/Admin/Content/ManageQuiz.jsx";
+import ManageQuiz from "./components/Admin/Content/Quiz/ManageQuiz.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
