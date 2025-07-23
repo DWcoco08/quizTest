@@ -10,7 +10,7 @@ import ModalUpdateUser from "./ModalUpdateUser";
 import ModalDeleteUser from "./ModalDeleteUser";
 
 const ManageUser = () => {
-  const LimitUser = 1;
+  const LimitUser = 8;
   const [pageCount, setPageCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
