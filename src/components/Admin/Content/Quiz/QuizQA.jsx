@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from "uuid";
 import _ from "lodash";
 import Lightbox from "react-awesome-lightbox";
 import {
+  getQuizWithQA,
   getAllQuizForAdmin,
   postCreateNewQuestionForQuiz,
   postCreateNewAnswerForQuestion,
@@ -48,6 +49,44 @@ const QuizQA = (props) => {
   useEffect(() => {
     fetchQuiz();
   }, []);
+
+  useEffect(() => {
+    if (selectedQuiz && selectedQuiz.value) {
+      fetchQuizWithQA();
+    }
+  }, [selectedQuiz]);
+
+  //return a promise that resolves with a File instance
+  function urlToFile(url, filename, mimeType) {
+    return fetch(url)
+      .then(function (res) {
+        return res.arrayBuffer();
+      })
+      .then(function (buf) {
+        return new File([buf], filename, { type: mimeType });
+      });
+  }
+
+  const fetchQuizWithQA = async () => {
+    const res = await getQuizWithQA(selectedQuiz.value);
+    if (res && res.EC === 0) {
+      // convert base64 to File object
+      let newQA = [];
+      for (let i = 0; i < res.DT.qa.length; i++) {
+        let q = res.DT.qa[i];
+        if (q.imageFile) {
+          q.imageName = `Question - ${q.id}.png`;
+          q.imageFile = await urlToFile(
+            `data:image/png;base64,${q.imageFile}`,
+            `Question - ${q.id}.png`,
+            `image/png`
+          );
+        }
+        newQA.push(q);
+      }
+      setQuestions(newQA);
+    }
+  };
 
   const fetchQuiz = async () => {
     const res = await getAllQuizForAdmin();
@@ -271,7 +310,7 @@ const QuizQA = (props) => {
             menuPortalTarget={document.body}
           />
         </div>
-        <div className="mt-3 mb-2 ">Add questions:</div>
+        <div className="mt-3 mb-2 ">List questions:</div>
         {questions &&
           questions.length > 0 &&
           questions.map((question, index) => {

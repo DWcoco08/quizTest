@@ -2,6 +2,7 @@ import "./App.scss";
 import React from "react";
 import NavBar_Header from "./components/Header/NavBar_Header";
 import { Outlet } from "react-router-dom";
+import PerfectScrollbar from "react-perfect-scrollbar";
 
 const App = () => {
   return (
@@ -12,7 +13,9 @@ const App = () => {
       <div className="main-container">
         <div className="sidenav-container"></div>
         <div className="app-content">
-          <Outlet></Outlet>
+          <PerfectScrollbar>
+            <Outlet />
+          </PerfectScrollbar>
         </div>
       </div>
     </div>
