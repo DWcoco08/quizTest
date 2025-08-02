@@ -5,6 +5,7 @@ import _ from "lodash";
 import "./DetailQuiz.scss";
 import Question from "./Question";
 import ModalResult from "./ModalResult";
+import RightContent from "./RightContent";
 import { set } from "nprogress";
 
 const DetailQuiz = () => {
@@ -150,7 +151,9 @@ const DetailQuiz = () => {
           </button>
         </div>
       </div>
-      <div className="right-content">Count down</div>
+      <div className="right-content">
+        <RightContent dataQuiz={dataQuiz} />
+      </div>
       <ModalResult
         show={isShowModalResult}
         setShow={setIsShowModalResult}
