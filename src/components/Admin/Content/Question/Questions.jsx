@@ -414,8 +414,8 @@ const Questions = (props) => {
 
         {isPreviewImage === true && (
           <Lightbox
-            images={dataImagePreview.url}
-            isOpen={dataImagePreview.title}
+            image={dataImagePreview.url}
+            title={dataImagePreview.title}
             onClose={() => setIsPreviewImage(false)}
           />
         )}

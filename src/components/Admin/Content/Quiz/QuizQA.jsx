@@ -12,8 +12,7 @@ import Lightbox from "react-awesome-lightbox";
 import {
   getQuizWithQA,
   getAllQuizForAdmin,
-  postCreateNewQuestionForQuiz,
-  postCreateNewAnswerForQuestion,
+  postUpsertQA,
 } from "../../../../services/apiService";
 import { toast } from "react-toastify";
 
@@ -126,7 +125,7 @@ const QuizQA = (props) => {
     }
   };
 
-  const handleAddRemoveAnswer = (type, questionId, anwserId) => {
+  const handleAddRemoveAnswer = (type, questionId, answerId) => {
     let questionsClone = _.cloneDeep(questions);
     if (type === "ADD") {
       const newAnswer = {
@@ -142,7 +141,7 @@ const QuizQA = (props) => {
     if (type === "REMOVE") {
       let index = questionsClone.findIndex((item) => item.id === questionId);
       questionsClone[index].answers = questionsClone[index].answers.filter(
-        (item) => item.id !== anwserId
+        (item) => item.id !== answerId
       );
       setQuestions(questionsClone);
     }
@@ -278,24 +277,34 @@ const QuizQA = (props) => {
       return;
     }
 
-    // submit questions
-    for (const question of questions) {
-      const q = await postCreateNewQuestionForQuiz(
-        +selectedQuiz.value,
-        question.description,
-        question.fileImage
-      );
-      // submit answer
-      for (const answer of question.answers) {
-        await postCreateNewAnswerForQuestion(
-          answer.description,
-          answer.isCorrect,
-          q.DT.id
+    let questionsClone = _.cloneDeep(questions);
+    for (let i = 0; i < questionsClone.length; i++) {
+      if (questionsClone[i].imageFile) {
+        questionsClone[i].imageFile = await toBase64(
+          questionsClone[i].imageFile
         );
       }
     }
-    toast.success("Create new questions successfully!");
-    setQuestions(initQuestions);
+
+    let res = await postUpsertQA({
+      quizId: selectedQuiz.value,
+      questions: questionsClone,
+    });
+
+    if (res && res.EC == 0) {
+      toast.success(res.EM);
+      fetchQuizWithQA();
+    }
+  };
+
+  const toBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      // Added 'return' here
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+    });
   };
 
   return (
@@ -451,8 +460,8 @@ const QuizQA = (props) => {
 
         {isPreviewImage === true && (
           <Lightbox
-            images={dataImagePreview.url}
-            isOpen={dataImagePreview.title}
+            image={dataImagePreview.url}
+            title={dataImagePreview.title}
             onClose={() => setIsPreviewImage(false)}
           />
         )}
