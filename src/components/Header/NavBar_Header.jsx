@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../services/apiService";
 import { doLogout } from "../../redux/action/userAction";
 import { toast } from "react-toastify";
+import Language from "./Language";
 
 const NavBar_Header = () => {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
@@ -56,7 +57,7 @@ const NavBar_Header = () => {
               Admin
             </NavLink>
           </Nav>
-          <nav>
+          <Nav>
             {isAuthenticated === false ? (
               <>
                 <button
@@ -78,16 +79,15 @@ const NavBar_Header = () => {
               </>
             ) : (
               <NavDropdown title="Settings" id="basic-nav-dropdown">
-                <NavDropdown.Item>Login</NavDropdown.Item>
-                <NavDropdown.Item>User Info</NavDropdown.Item>
-                <NavDropdown.Item>About</NavDropdown.Item>
+                <NavDropdown.Item>Profile</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item onClick={() => handleLogout()}>
                   Log out
                 </NavDropdown.Item>
               </NavDropdown>
             )}
-          </nav>
+            <Language />
+          </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>

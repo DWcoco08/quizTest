@@ -6,6 +6,7 @@ import { postLogin } from "../../services/apiService";
 import { useDispatch } from "react-redux";
 import { doLogin } from "../../redux/action/userAction";
 import { ImSpinner } from "react-icons/im";
+import Language from "../Header/Language";
 
 const Login = (props) => {
   const [email, setEmail] = useState("");
@@ -67,6 +68,7 @@ const Login = (props) => {
         >
           Sign up
         </button>
+        <Language />
       </div>
       <div className="login-title col-4 mx-auto">IT-QuizTest</div>
       <div className="login-welcome col-4 mx-auto">Hello, Wanna join Us?</div>
