@@ -5,7 +5,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../services/apiService";
-import { doLogout } from "../../redux/actions/userAction";
+import { doLogout } from "../../redux/action/userAction";
 import { toast } from "react-toastify";
 
 const NavBar_Header = () => {
@@ -26,7 +26,7 @@ const NavBar_Header = () => {
   };
 
   const handleLogout = async () => {
-    let res = await logout(account.email, account.refreshToken);
+    let res = await logout(account.email, account.refresh_token);
     if (res && res.EC === 0) {
       // clear data redux
       dispatch(doLogout());
