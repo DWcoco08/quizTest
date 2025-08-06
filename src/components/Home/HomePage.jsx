@@ -1,10 +1,12 @@
 import VideoHomePage from "../../assets/Video-homepage.mp4";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useTranslation, Trans } from "react-i18next";
 
 const HomePage = (props) => {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <div className="homepage-container">
@@ -14,14 +16,8 @@ const HomePage = (props) => {
         </video>
       </div>
       <div className="homepage-content">
-        <div className="homepage-title">
-          This is the place to test your knowledge
-        </div>
-        <div className="homepage-desc">
-          You are in the IT industry and are not sure about your current
-          knowledge. Don't worry, here you will be tested on the knowledge you
-          have learned!
-        </div>
+        <div className="homepage-title">{t("homepage.homepage-title")}</div>
+        <div className="homepage-desc">{t("homepage.homepage-desc")}</div>
         <div className="homepage-button">
           {isAuthenticated === false ? (
             <button onClick={() => navigate("/login")}>

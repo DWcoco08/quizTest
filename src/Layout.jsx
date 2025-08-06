@@ -14,6 +14,7 @@ import Questions from "./components/Admin/Content/Question/Questions.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PrivateRoute from "./routes/PrivateRoute.jsx";
+import { Suspense } from "react";
 
 const NotFound = () => {
   return (
@@ -26,7 +27,7 @@ const NotFound = () => {
 
 const Layout = () => {
   return (
-    <>
+    <Suspense fallback={<div>Loading...</div>}>
       <Routes>
         <Route path="/" element={<App />}>
           <Route index element={<HomePage />} />
@@ -72,7 +73,7 @@ const Layout = () => {
         pauseOnHover
         theme="light"
       />
-    </>
+    </Suspense>
   );
 };
 
