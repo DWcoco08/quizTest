@@ -41,14 +41,15 @@ const DetailQuiz = () => {
             item.answers.isSelected = false;
             answers.push(item.answers);
           });
+
+          answers = _.orderBy(answers, ["id"], ["asc"]);
+
           return { questionId: key, answers, questionDesc, image };
         })
         .value();
-      // console.log("Check data:", data);
       setDataQuiz(data);
     }
   };
-  // console.log("Check dataQuiz:", dataQuiz);
 
   const handlePrev = () => {
     if (index - 1 < 0) return;
